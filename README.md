@@ -1,5 +1,9 @@
 # Chat2
 
+### description
+simple real time chat app using Phoenix framework,
+elixir language, bower, uikit, jquery, websocket
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
