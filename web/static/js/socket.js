@@ -56,7 +56,23 @@ socket.connect()
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("rooms:test", {})
 
+$(".send-message").on("submit", function(e){
+  e.preventDefault();
+  var username = $(this).find("#username"),
+  message = $(this).find("#message");
+  channel.push("new_msg", {username: username.val(), message: message.val()});
+  message.val("");
+  return false;
+})
 
+channel.on("new_msg", function(data){
+  console.log("from server with "+data);
+  var message = $(document.createElement("blockquote"));
+  message.append("<p>"+data.username+"<p>");
+  message.append("<wsmall>"+data.message+"<small>");
+  message.appendTo(".messages")
+  console.log(message);
+});
 
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
