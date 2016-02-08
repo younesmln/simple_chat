@@ -1,0 +1,11 @@
+.container{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.message{
+  margin-bottom: 13px;
+}
+.messages{
+  height: 265px;
+  overflow: auto;
+}
