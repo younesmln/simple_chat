@@ -3,7 +3,7 @@ defmodule Chat2.UserSocket do
 
   ## Channels
   channel "rooms:*", Chat2.ChatChannel
-
+  channel "position:*", Chat2.GameChannel
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll

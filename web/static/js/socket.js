@@ -55,8 +55,27 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("rooms:test", {})
+let channel2 = socket.channel("position:broadcast", {})
 
 $(".send-message").on("submit", function(e){
+  e.preventDefault();
+  var username = $(this).find("#username"),
+  message = $(this).find("#message");
+  channel.push("new_msg", {username: username.val(), message: message.val()});
+  message.val("");
+  return false;
+})
+
+$(".send-message").on("submit", function(e){
+  e.preventDefault();
+  var username = $(this).find("#username"),
+  message = $(this).find("#message");
+  channel.push("new_msg", {username: username.val(), message: message.val()});
+  message.val("");
+  return false;
+})
+
+$(".send-message").on("keyup", function(e){
   e.preventDefault();
   var username = $(this).find("#username"),
   message = $(this).find("#message");
@@ -74,8 +93,53 @@ channel.on("new_msg", function(data){
   console.log(message);
 });
 
+$("body").on("keyup", function(e){
+	console.log(e.keyCode);
+    var off = 12;
+    var x = obj.position().left;
+    var y = obj.position().top;
+    console.log(x+"  "+y)
+    switch(e.keyCode) {
+      case 37:
+        console.log("left");
+        x-=off;
+        break;
+      case 38:
+        console.log("up");
+        y-=off;
+        break;
+      case 39:
+        console.log("right");
+        x+=off;
+        break;
+      case 40:
+        console.log("down");
+        y+=off;
+        break;
+      default:
+        console.log(".");
+    }
+    //channel2.push("position_change", {x: obj.position().left, y: obj.position().top});
+    channel2.push("position_change", {x: x, y: y});
+});
+
+channel2.on("position_change", function(data){
+  console.log("from server with "+data);
+  obj.animate({left: data.x+"px", top: data.y+"px"},100)
+});
+
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
+
+channel2.join()
+    .receive("ok", resp => {
+      console.log("Joined successfully position", resp)
+      var obj = $(document.createElement("div"));
+      obj.attr("class", "obj");
+      $("body").append(obj);
+      window.obj = $(".obj");
+     })
+    .receive("error", resp => { console.log("Unable to join", resp) })
 
 export default socket

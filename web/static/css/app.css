@@ -9,3 +9,11 @@
   height: 265px;
   overflow: auto;
 }
+
+.obj{
+  position:absolute;
+  background: red;
+  width: 35px;
+  height: 35px;
+  border-radius:5px;
+}
