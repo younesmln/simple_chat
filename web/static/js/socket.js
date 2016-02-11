@@ -66,24 +66,6 @@ $(".send-message").on("submit", function(e){
   return false;
 })
 
-$(".send-message").on("submit", function(e){
-  e.preventDefault();
-  var username = $(this).find("#username"),
-  message = $(this).find("#message");
-  channel.push("new_msg", {username: username.val(), message: message.val()});
-  message.val("");
-  return false;
-})
-
-$(".send-message").on("keyup", function(e){
-  e.preventDefault();
-  var username = $(this).find("#username"),
-  message = $(this).find("#message");
-  channel.push("new_msg", {username: username.val(), message: message.val()});
-  message.val("");
-  return false;
-})
-
 channel.on("new_msg", function(data){
   console.log("from server with "+data);
   var message = $(document.createElement("blockquote"));

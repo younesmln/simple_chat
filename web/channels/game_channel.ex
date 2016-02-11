@@ -4,9 +4,10 @@ defmodule Chat2.GameChannel do
   use Phoenix.Channel
 
   def join("position:broadcast", _message, socket) do
-    new = get_session(socket.conn, :new)
-    {:ok, new, socket}
-    #conn = put_session(conn, :new, true)
+    Logger.debug("******************************")
+    IO.inspect socket
+    Logger.debug("******************************")
+    {:ok, socket}
   end
 
   def handle_in("position_change", %{"x"=> x, "y"=> y} = data, socket) do
